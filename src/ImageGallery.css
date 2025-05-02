@@ -1,0 +1,12 @@
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap;  /* Allow images to wrap to the next line */
+    gap: 10px;        /* Space between images */
+    justify-content: center;  /* Center images horizontally */
+  }
+  
+  .image {
+    width: 100%;       /* Make images fill the container's width */
+    max-width: 300px;  /* Max width for each image */
+    height: auto;      /* Maintain the aspect ratio */
+  }
