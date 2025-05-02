@@ -732,15 +732,13 @@ def card(card_id):
         }
         return jsonify(response), 200
     elif request.method == "PUT":
-        conn = get_db_connection()
-        cursor = conn.cursor(prepared=True)
-        conn.autocommit = False
         try:
-            conn.start_transaction()
+            conn = get_db_connection()
+            cursor = conn.cursor(prepared=True)
+            conn.autocommit = False
             storage = request.get_json()
-            base64_image = storage.get('image', "")  # Get the base64 image
+            base64_image = storage.get('image', "")
             if base64_image:
-                # Decode the base64 string to binary data
                 image_data = base64.b64decode(base64_image)
             else:
                 image_data = None
@@ -874,6 +872,7 @@ def card(card_id):
             VALUES ({', '.join(['%s'] * len(values))})
             """
             cursor.execute(insert, tuple(values))
+            conn.commit()
         except mysql.connector.Error as err:
             response = {
                 'message': 'Failed to Insert'
@@ -882,7 +881,6 @@ def card(card_id):
             cursor.close()
             conn.close()
             return jsonify(response), 204
-        conn.commit()
         cursor.close()
         conn.close()
         response = {
