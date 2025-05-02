@@ -10,7 +10,6 @@ from urllib.parse import unquote
 from pokemontcgsdk import Card, Set, RestClient
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
-RestClient.configure('3751dc90-a972-4cf1-8dfe-dc3104084202')
 SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
     username="root",
     password="cookiemonster",
@@ -875,7 +874,7 @@ def card(card_id):
             conn.commit()
         except mysql.connector.Error as err:
             response = {
-                'message': 'Failed to Insert'
+                'message': err
             }
             conn.rollback()
             cursor.close()
